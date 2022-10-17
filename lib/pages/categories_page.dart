@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/category_item.dart';
+import '../components/component/category_item.dart';
 import '../data/dummy_data.dart';
 
 class CategoriesPage extends StatelessWidget {
@@ -19,7 +19,7 @@ class CategoriesPage extends StatelessWidget {
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
         ),
-        children: dummyCategories.map((cat){
+        children: dummyCategories.map((cat) {
           return CategoryItem(cat);
         }).toList(),
       ),
