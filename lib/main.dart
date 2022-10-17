@@ -16,11 +16,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tarefas a Realizar',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Colors.pink,
-          secondary: Colors.amber,
-        ),
-      ),
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: Colors.pink,
+            secondary: Colors.amber,
+          ),
+          canvasColor: const Color.fromRGBO(255, 254, 229, 1),
+          fontFamily: 'Raleway',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: const TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'RobotoCondensed',
+                ),
+              )),
       routes: {
         AppRoutes.HOME: (ctx) => const CategoriesPage(),
         AppRoutes.CATEGORIES_MEALS: (ctx) => const CategoriesMealsPage(),
