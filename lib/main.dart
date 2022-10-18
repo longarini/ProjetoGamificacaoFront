@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Tarefas a Realizar',
       theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -29,8 +30,10 @@ class MyApp extends StatelessWidget {
                 ),
               )),
       routes: {
-        AppRoutes.HOME: (ctx) => const CategoriesPage(),
+        AppRoutes.HOME: (ctx) => const MyLogin(),
         AppRoutes.CATEGORIES_MEALS: (ctx) => const CategoriesMealsPage(),
+        AppRoutes.TASKS: (ctx) => const CategoriesPage(),
+        AppRoutes.REGISTER: (ctx) => const MyRegister(),
       },
     );
   }
