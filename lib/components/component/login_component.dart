@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../utils/app_routes.dart';
 import '../../pages/register.dart';
+import '../../api/api_login.dart';
 import '../utils/login_component_utils.dart';
 
 class MyLoginComponent extends StatefulWidget {
@@ -80,7 +81,7 @@ class _MyLoginComponentState extends State<MyLoginComponent> {
                               child: IconButton(
                                   color: Colors.white,
                                   onPressed: () {
-                                    login('', '');
+                                    login('longarini', '123456');
                                   },
                                   icon: const Icon(
                                     Icons.arrow_forward,
