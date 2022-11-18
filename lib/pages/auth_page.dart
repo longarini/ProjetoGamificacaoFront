@@ -27,6 +27,7 @@ class _AuthPageState extends State<AuthPage> {
         if (ret != '') {
           _showDialog(ret, 'Falha de Autenticação');
         }
+        resetPage();
       } else {
         String ret = await AuthCloudService().signup(
           formData.user,

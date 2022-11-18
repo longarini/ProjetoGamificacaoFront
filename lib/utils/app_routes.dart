@@ -9,4 +9,6 @@ class AppRoutes {
   static const GROUPS = '/groups';
   // ignore: constant_identifier_names
   static const TASKS = '/tasks';
+  // ignore: constant_identifier_names
+  static const EDIT_TASK = '/tasks';
 }

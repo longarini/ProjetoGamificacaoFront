@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-
 import '../core/services/auth/auth_service_cloud.dart';
 import '../utils/app_routes.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({super.key});
+
+  void logout(context) {
+    AuthCloudService().logout();
+    Navigator.of(context).pushNamed(
+      AppRoutes.HOME,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +34,14 @@ class NavDrawer extends StatelessWidget {
             title: const Text('Home'),
             onTap: () => {
               Navigator.of(context).pushNamed(
-                AppRoutes.GROUPS,
+                AppRoutes.HOME,
               )
             },
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Logout'),
-            onTap: () => AuthCloudService().logout(),
+            onTap: () => logout(context),
           ),
         ],
       ),

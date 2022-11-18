@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/core/models/group_data.dart';
-import '../core/models/category.dart';
 import '../utils/app_routes.dart';
 
-class GroupItem extends StatelessWidget {
+class TaskItem extends StatelessWidget {
   final GroupData group;
 
-  const GroupItem(this.group, {Key? key}) : super(key: key);
+  const TaskItem(this.group, {Key? key}) : super(key: key);
 
   void _selectGroup(BuildContext context) {
     Navigator.of(context).pushNamed(

@@ -77,13 +77,13 @@ class AuthCloudService implements AuthService {
       var jsonResponse = convert.jsonDecode(response.body) as Map<String, dynamic>;
       _updateUser(null);
       return jsonResponse['message'];
-
     }
   }
 
   @override
   Future<void> logout() async {
-    _updateUser(null);
+    await SessionManager().destroy();
+    _updateUser(null);    
   }
 
   static void _updateUser(UserSignup? user) {

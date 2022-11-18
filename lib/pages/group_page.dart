@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/components/nav_drawer.dart';
 import '../components/group_item.dart';
-import '../core/models/group_data.dart';
 import '../core/services/groups/group_service.dart';
 
 class GroupsPage extends StatefulWidget {
@@ -41,7 +40,7 @@ class _GroupsPageState extends State<GroupsPage> {
         padding: const EdgeInsets.all(25),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
-          childAspectRatio: 3 / 2,
+          childAspectRatio: 1.5,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20,
         ),
