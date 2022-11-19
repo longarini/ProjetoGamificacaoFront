@@ -1,42 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:front_gamific/core/models/group_data.dart';
-import '../utils/app_routes.dart';
+import 'package:front_gamific/core/models/task_data.dart';
 
 class TaskItem extends StatelessWidget {
-  final GroupData group;
+  final TaskData task;
 
-  const TaskItem(this.group, {Key? key}) : super(key: key);
-
-  void _selectGroup(BuildContext context) {
-    Navigator.of(context).pushNamed(
-      AppRoutes.TASKS,
-      arguments: group,
-    );
-  }
+  const TaskItem(this.task, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _selectGroup(context),
+      onTap: () => () {},
       splashColor: Theme.of(context).colorScheme.primary,
       borderRadius: BorderRadius.circular(15),
       child: Container(
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            gradient: LinearGradient(
-              colors: [
-                const Color.fromARGB(255, 0, 128, 255).withOpacity(0.5),
-                const Color.fromARGB(255, 0, 128, 255),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          gradient: LinearGradient(
+            colors: [
+              const Color.fromARGB(255, 225, 255, 0).withOpacity(0.5),
+              const Color.fromARGB(255, 225, 255, 0),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Text(
-            group.nomeGrupo,
-            style: Theme.of(context).textTheme.headline6,
-          )),
+        ),
+        child: Text(
+          task.nomeTask,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+      ),
     );
   }
 }

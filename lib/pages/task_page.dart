@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/components/nav_drawer.dart';
+import 'package:front_gamific/components/task_item.dart';
 import 'package:front_gamific/core/models/group_data.dart';
-import '../components/task_Item.dart';
+import 'package:front_gamific/core/models/task_data.dart';
 import '../core/services/tasks/task_service.dart';
 
 class TaskPage extends StatefulWidget {

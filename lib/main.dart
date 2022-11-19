@@ -4,6 +4,7 @@ import 'package:front_gamific/pages/auth_page.dart';
 import 'package:front_gamific/pages/group_page.dart';
 import 'package:front_gamific/pages/main_page.dart';
 import 'package:front_gamific/pages/task_page.dart';
+import 'core/services/auth/auth_service_cloud.dart';
 import 'utils/app_routes.dart';
 
 void main() {
@@ -16,27 +17,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-            theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: Colors.blue,
-            secondary: Colors.amber,
-          ),
-          canvasColor: const Color.fromRGBO(255, 254, 229, 1),
-          fontFamily: 'Raleway',
-          textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: const TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'RobotoCondensed',
-                ),
-              )),
-      debugShowCheckedModeBanner: false,
-      routes: {
-        AppRoutes.HOME: (ctx) => const AuthAppPage(),
-        AppRoutes.AUTH: (ctx) => const AuthPage(),
-        AppRoutes.GROUPS: (ctx) =>  const GroupsPage(),
-        AppRoutes.TASKS: (ctx) =>  const TaskPage(),
-      }
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: Colors.blue,
+              secondary: Colors.amber,
+            ),
+            canvasColor: const Color.fromRGBO(255, 254, 229, 1),
+            fontFamily: 'Raleway',
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: const TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'RobotoCondensed',
+                  ),
+                )),
+        debugShowCheckedModeBanner: false,
+        routes: {
+          AppRoutes.HOME: (ctx) => const AuthAppPage(),
+          AppRoutes.AUTH: (ctx) => const AuthPage(),
+          AppRoutes.GROUPS: (ctx) => const GroupsPage(),
+          AppRoutes.TASKS: (ctx) => const TaskPage(),
+        });
   }
 }

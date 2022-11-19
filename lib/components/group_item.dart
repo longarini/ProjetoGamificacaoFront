@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/core/models/group_data.dart';
-import '../core/models/category.dart';
 import '../utils/app_routes.dart';
 
 class GroupItem extends StatelessWidget {
@@ -22,22 +21,23 @@ class GroupItem extends StatelessWidget {
       splashColor: Theme.of(context).colorScheme.primary,
       borderRadius: BorderRadius.circular(15),
       child: Container(
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            gradient: LinearGradient(
-              colors: [
-                const Color.fromARGB(255, 0, 128, 255).withOpacity(0.5),
-                const Color.fromARGB(255, 0, 128, 255),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 0, 128, 255).withOpacity(0.5),
+              const Color.fromARGB(255, 0, 128, 255),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          child: Text(
-            group.nomeGrupo,
-            style: Theme.of(context).textTheme.headline6,
-          )),
+        ),
+        child: Text(
+          group.nomeGrupo,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+      ),
     );
   }
 }

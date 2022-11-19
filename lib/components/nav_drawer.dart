@@ -12,6 +12,12 @@ class NavDrawer extends StatelessWidget {
     );
   }
 
+  void home(context) {
+    Navigator.of(context).pushNamed(
+      AppRoutes.HOME,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -32,11 +38,7 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.input),
             title: const Text('Home'),
-            onTap: () => {
-              Navigator.of(context).pushNamed(
-                AppRoutes.HOME,
-              )
-            },
+            onTap: () => home(context),
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
