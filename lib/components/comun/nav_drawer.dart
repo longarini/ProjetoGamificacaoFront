@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../core/services/auth/auth_service_cloud.dart';
-import '../utils/app_routes.dart';
+import '../../core/services/auth/auth_service_cloud.dart';
+import '../../utils/app_routes.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({super.key});

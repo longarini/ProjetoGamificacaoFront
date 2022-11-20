@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:front_gamific/components/auth_form.dart';
+import 'package:front_gamific/components/auth/auth_form.dart';
 import 'package:front_gamific/core/models/auth_form_data.dart';
 import 'package:front_gamific/core/services/auth/auth_service_cloud.dart';
-import 'package:front_gamific/pages/auth_app_page.dart';
+import 'package:front_gamific/pages/auth/auth_app_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});

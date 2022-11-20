@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/core/models/group_data.dart';
-import '../components/nav_drawer.dart';
-import '../core/services/groups/group_service.dart';
+import '../../components/comun/nav_drawer.dart';
+import '../../core/services/groups/group_service.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

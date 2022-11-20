@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:front_gamific/core/models/auth_signup_data.dart';
 import 'package:front_gamific/core/services/auth/auth_service_cloud.dart';
-import 'package:front_gamific/pages/auth_page.dart';
-import 'package:front_gamific/pages/group_page.dart';
-import 'package:front_gamific/pages/loading_page.dart';
-import 'package:front_gamific/pages/main_page.dart';
+import 'package:front_gamific/pages/auth/auth_page.dart';
+import 'package:front_gamific/pages/groups/group_page.dart';
+import 'package:front_gamific/pages/comun/loading_page.dart';
+import 'package:front_gamific/pages/comun/main_page.dart';
 
-import '../utils/app_routes.dart';
+import '../../utils/app_routes.dart';
 
 class AuthAppPage extends StatefulWidget {
   const AuthAppPage({super.key});

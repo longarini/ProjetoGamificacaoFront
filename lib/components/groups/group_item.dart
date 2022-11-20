@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/core/models/group_data.dart';
-import '../utils/app_routes.dart';
+import '../../utils/app_routes.dart';
 
 class GroupItem extends StatelessWidget {
   final GroupData group;
@@ -26,16 +26,20 @@ class GroupItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 0, 128, 255).withOpacity(0.5),
+              const Color.fromARGB(255, 0, 128, 255).withOpacity(0.5),
               const Color.fromARGB(255, 0, 128, 255),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        child: Text(
-          group.nomeGrupo,
-          style: Theme.of(context).textTheme.headline6,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            group.nomeGrupo,
+            style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );
