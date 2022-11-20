@@ -3,6 +3,7 @@ import 'package:front_gamific/components/groups/add_group_form.dart';
 import 'package:front_gamific/core/models/add_group_data.dart';
 import 'package:front_gamific/core/models/return_req_data.dart';
 import 'package:front_gamific/core/services/groups/group_service.dart';
+import 'package:front_gamific/pages/groups/admin_group_page.dart';
 import 'package:front_gamific/pages/groups/group_page.dart';
 
 import '../../components/comun/nav_drawer.dart';
@@ -37,7 +38,7 @@ class _AddGroupPageState extends State<AddGroupPage> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => const GroupsPage()));
+            builder: (BuildContext context) => const AdminGroupPage()));
   }
 
   Future _showDialog(descricao, titulo) async {

@@ -24,9 +24,11 @@ class _GroupsPageState extends State<GroupsPage> {
     var retorno = await GroupServices().getGroups();
 
     if (retorno.status == 200) {
-      groups.addAll(retorno.data.map<Widget>((cat) {
-        return GroupItem(cat);
-      }).toList());
+      if (retorno.data != null) {
+        groups.addAll(retorno.data.map<Widget>((cat) {
+          return GroupItem(cat);
+        }).toList());
+      }
     }
     groups.add(const AddGroupItem());
 
