@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:front_gamific/core/models/return_req_data.dart';
 
+import '../../models/group/retorno_group.dart';
+
 class GroupServices {
   Future<ReturnReq> getGroups() async {
     dynamic id = await SessionManager().get("id");
@@ -44,7 +46,6 @@ class GroupServices {
     var body = jsonEncode({
       'idUser': id,
       'groupName': nomeGrupo,
-
     });
 
     try {
@@ -56,9 +57,34 @@ class GroupServices {
 
       retorno.status = response.statusCode;
       if (response.statusCode == 200) {
-        var jsonResponse =
-            jsonDecode(response.body).cast<Map<String, dynamic>>();
-        retorno.msg = jsonResponse.message;
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
+        retorno.data = jsonResponse;
+      }
+    } catch (err) {
+      retorno.msg = err.toString();
+    }
+    return retorno;
+  }
+
+  Future<ReturnReq> getInformation(idGroup) async {
+    dynamic id = await SessionManager().get("id");
+    dynamic token = await SessionManager().get("token");
+    ReturnReq retorno = ReturnReq(status: 200, msg: '', data: null);
+
+    var url = Uri.http('localhost:3000', '/api/v1/groups/$id/$idGroup');
+
+    try {
+      var response = await http.get(
+        url,
+        headers: {"Content-Type": "application/json", 'x-access-token': token},
+      );
+
+      retorno.status = response.statusCode;
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+
+        retorno.data = RetornoGroup.fromJson(jsonResponse);
       }
     } catch (err) {
       retorno.msg = err.toString();

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/components/groups/datatable_comun_users.dart';
+import 'package:front_gamific/core/services/groups/group_service.dart';
 import '../../components/comun/nav_drawer.dart';
 
 class AdminGroupPage extends StatefulWidget {
-  const AdminGroupPage({super.key});
+  final String idGroup;
+  const AdminGroupPage({super.key, required this.idGroup});
 
   @override
   State<AdminGroupPage> createState() => _AdminGroupPageState();
@@ -26,6 +28,13 @@ class _AdminGroupPageState extends State<AdminGroupPage> {
   //   } finally {
   //   }
   // }
+
+  Future<int> _getInformation(idGroup) async {
+    var ret = await GroupServices().getInformation(idGroup);
+
+    var data = ret.data;
+    return 0;
+  }
 
   Future _showDialog(descricao, titulo) async {
     showDialog(
@@ -51,9 +60,29 @@ class _AdminGroupPageState extends State<AdminGroupPage> {
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text('Groups.'),
+        title: const Text('Painel'),
       ),
-      body: const DataTableComunUsers(),
+      body: FutureBuilder(
+        future: _getInformation(widget.idGroup),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return GridView(
+              padding: const EdgeInsets.all(25),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+              ),
+              children: [],
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }

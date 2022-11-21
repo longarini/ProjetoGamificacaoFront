@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget {
           AppRoutes.GROUPS: (ctx) => const GroupsPage(),
           AppRoutes.TASKS: (ctx) => const TaskPage(),
           AppRoutes.ADD_GROUP: (ctx) => const AddGroupPage(),
-          AppRoutes.ADMIN_GROUP: (ctx) => const AdminGroupPage()
         });
   }
 }

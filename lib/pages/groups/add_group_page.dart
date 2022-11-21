@@ -23,7 +23,7 @@ class _AddGroupPageState extends State<AddGroupPage> {
       ReturnReq ret = await GroupServices().createGroup(formData.groupName);
 
       if(ret.status == 200){
-      redirectPage();
+      redirectPage(ret.data['_id']);
       }else{
         _showDialog('Erro', ret.msg);
       }
@@ -34,11 +34,11 @@ class _AddGroupPageState extends State<AddGroupPage> {
     }
   }
 
-  void redirectPage() {
+  void redirectPage(groupId) {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (BuildContext context) => const AdminGroupPage()));
+            builder: (BuildContext context) => AdminGroupPage(idGroup: groupId,)));
   }
 
   Future _showDialog(descricao, titulo) async {
