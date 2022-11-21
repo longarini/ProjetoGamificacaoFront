@@ -9,10 +9,11 @@ class DataTableComunUsers extends StatefulWidget {
   State<DataTableComunUsers> createState() => _DataTableComunUsersState();
 }
 
-class _DataTableComunUsersState extends State<DataTableComunUsers> {  
+class _DataTableComunUsersState extends State<DataTableComunUsers> {
   @override
   Widget build(BuildContext context) {
-    List<bool> selected = List<bool>.generate(widget.users.length, (int index) => false);
+    List<bool> selected =
+        List<bool>.generate(widget.users.length, (int index) => false);
     return SizedBox(
       width: double.infinity,
       child: DataTable(
@@ -22,7 +23,7 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
           ),
         ],
         rows: List<DataRow>.generate(
-          numItems,
+          widget.users.length,
           (int index) => DataRow(
             color: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
@@ -36,7 +37,7 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
               }
               return null; // Use default value for other states and odd rows.
             }),
-            cells: <DataCell>[DataCell(Text('Row $index'))],
+            cells: [DataCell(Text(widget.users[index].name))],
             selected: selected[index],
             onSelectChanged: (bool? value) {
               setState(() {
