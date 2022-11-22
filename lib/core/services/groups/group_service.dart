@@ -117,4 +117,30 @@ class GroupServices {
     }
     return retorno;
   }
+
+  Future<ReturnReq> insertUser(user, idGroup) async {
+    dynamic token = await SessionManager().get("token");
+    ReturnReq retorno = ReturnReq(status: 200, msg: '', data: null);
+
+    var url = Uri.http('localhost:3000', '/api/v1/groups');
+    var body = jsonEncode({'id': idGroup, 'user': user});
+    try {
+      var response = await http.patch(url,
+          headers: {
+            "Content-Type": "application/json",
+            'x-access-token': token
+          },
+          body: body);
+
+      retorno.status = response.statusCode;
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+
+        retorno.data = RetornoGroup.fromJson(jsonResponse);
+      }
+    } catch (err) {
+      retorno.msg = err.toString();
+    }
+    return retorno;
+  }
 }

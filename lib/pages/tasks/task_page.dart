@@ -25,7 +25,7 @@ class _TaskPageState extends State<TaskPage> {
   Future<List<Widget>> _getTasks() async {
     var retorno = await TaskServices().getTasks(group.id);
 
-    return retorno.map((cat) {
+    return retorno.data.map((cat) {
       return TaskItem(cat);
     }).toList();
   }

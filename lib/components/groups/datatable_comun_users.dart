@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/core/services/groups/group_service.dart';
 
+import '../../core/services/tasks/task_service.dart';
+
 class DataTableComunUsers extends StatefulWidget {
   final String idGroup;
   const DataTableComunUsers({
@@ -14,20 +16,44 @@ class DataTableComunUsers extends StatefulWidget {
 
 class _DataTableComunUsersState extends State<DataTableComunUsers> {
   List<String> users = [];
+  List<String> tasks = [];
   String groupName = '';
+  String userName = '';
+
+  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<bool> _getUsers(idGroup) async {
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _getUsers(idGroup) async {
     var ret = await GroupServices().getInformation(idGroup);
 
     users = ret.data.comunUsers.cast<String>();
     groupName = ret.data.nomeGrupo;
+  }
+
+  Future<bool> _getInformation(idGroup) async {
+    await _getUsers(idGroup);
+    await _getTasks(idGroup);
 
     return true;
+  }
+
+  Future<void> _getTasks(idGroup) async {
+    var ret = await TaskServices().getTasks(idGroup);
+
+    if (ret.data != '') {
+      users = ret.data.comunUsers.cast<String>();
+      groupName = ret.data.nomeGrupo;
+    }
   }
 
   void _deleteUser(user, idGroup) {
@@ -38,18 +64,27 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
     setState(() {});
   }
 
-  void _createUser(user, idGroup) {
-    GroupServices().deleteUser(
+  void _insertUser(user, idGroup) {
+    GroupServices().insertUser(
       user,
       idGroup,
     );
+  }
+
+  void save() {
+    _insertUser(controller.text, widget.idGroup);
+    Navigator.of(context).pop();
     setState(() {});
+  }
+
+  void close() {
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _getUsers(widget.idGroup),
+      future: _getInformation(widget.idGroup),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Column(
@@ -77,6 +112,22 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                 endIndent: 20,
                 color: Colors.blue,
               ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Usuários',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      fontFamily: 'RobotoCondensed',
+                      color: Color.fromARGB(255, 0, 104, 189),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(
                 width: double.infinity,
                 child: DataTable(
@@ -100,7 +151,7 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                   ],
                   rows: List<DataRow>.generate(
                     users.length,
-                    (int index) => DataRow(
+                    (int indexUser) => DataRow(
                       color: MaterialStateProperty.resolveWith<Color?>(
                           (Set<MaterialState> states) {
                         // All rows will have the same selected color.
@@ -111,18 +162,18 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                               .withOpacity(0.08);
                         }
                         // Even rows will have a grey color.
-                        if (index.isEven) {
+                        if (indexUser.isEven) {
                           return Colors.grey.withOpacity(0.3);
                         }
                         return null; // Use default value for other states and odd rows.
                       }),
                       cells: [
-                        DataCell(Text(users[index])),
+                        DataCell(Text(users[indexUser])),
                         DataCell(
                           Center(
                             child: ElevatedButton(
                               onPressed: () {
-                                _deleteUser(users[index], widget.idGroup);
+                                _deleteUser(users[indexUser], widget.idGroup);
                               },
                               child: const Icon(Icons.delete),
                             ),
@@ -140,11 +191,112 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                   child: ElevatedButton(
                     child: const Text('Add Usuário'),
                     onPressed: () {
-                      openAddUserDialog();
+                      showDialog<String>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Nome do Usuario'),
+                          content: TextField(
+                            autofocus: true,
+                            decoration: const InputDecoration(
+                                hintText: 'Entre com o nome do usuário'),
+                            controller: controller,
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: close,
+                              child: const Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: save,
+                              child: const Text('Salvar'),
+                            )
+                          ],
+                        ),
+                      );
+                      ;
                     },
                   ),
                 ),
-              )
+              ),
+              const Divider(
+                height: 20,
+                thickness: 5,
+                indent: 20,
+                endIndent: 20,
+                color: Colors.blue,
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Tasks',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      fontFamily: 'RobotoCondensed',
+                      color: Color.fromARGB(255, 0, 104, 189),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: DataTable(
+                  columns: const <DataColumn>[
+                    DataColumn(
+                      label: Expanded(
+                        child: Text(
+                          'Nome',
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                          child: Text(
+                            'Deletar Task',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  rows: List<DataRow>.generate(
+                    tasks.length,
+                    (int indexTask) => DataRow(
+                      color: MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                        // All rows will have the same selected color.
+                        if (states.contains(MaterialState.selected)) {
+                          return Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.08);
+                        }
+                        // Even rows will have a grey color.
+                        if (indexTask.isEven) {
+                          return Colors.grey.withOpacity(0.3);
+                        }
+                        return null; // Use default value for other states and odd rows.
+                      }),
+                      cells: [
+                        DataCell(Text(tasks[indexTask])),
+                        DataCell(
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _deleteUser(users[indexTask], widget.idGroup);
+                              },
+                              child: const Icon(Icons.delete),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           );
         } else {
@@ -155,26 +307,4 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
       },
     );
   }
-
-  Future openAddUserDialog() => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: const Text('Nome do Usuario'),
-            content: const TextField(
-              decoration:
-                  InputDecoration(hintText: 'Entre com o nome do usuário'),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancelar'),
-              ),
-              TextButton(
-                onPressed: () => () {},
-                child: const Text('Salvar'),
-              )
-            ],
-          ));
 }
