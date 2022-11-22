@@ -29,11 +29,16 @@ class _AdminGroupPageState extends State<AdminGroupPage> {
   //   }
   // }
 
-  Future<int> _getInformation(idGroup) async {
+  Future<List<Widget>> _getInformation(idGroup) async {
+    List<Widget> retorno = [];
+
     var ret = await GroupServices().getInformation(idGroup);
 
-    var data = ret.data;
-    return 0;
+    var comunUsers = ret.data.comunUsers.cast<String>();
+
+    retorno.add(DataTableComunUsers(idGroup: idGroup));
+
+    return retorno;
   }
 
   Future _showDialog(descricao, titulo) async {
@@ -66,15 +71,11 @@ class _AdminGroupPageState extends State<AdminGroupPage> {
         future: _getInformation(widget.idGroup),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return GridView(
-              padding: const EdgeInsets.all(25),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
+            return Container(
+              alignment: Alignment.center,
+              child: Column(
+                children: snapshot.data ?? [],
               ),
-              children: [],
             );
           } else {
             return const Center(
