@@ -226,7 +226,7 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 10, 0),
+                padding: const EdgeInsets.fromLTRB(0, 5, 20, 0),
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
@@ -339,7 +339,7 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 10, 0),
+                padding: const EdgeInsets.fromLTRB(0, 5, 20, 0),
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(

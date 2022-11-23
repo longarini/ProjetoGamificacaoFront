@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/core/models/group_data.dart';
+import 'package:front_gamific/pages/tasks/task_page.dart';
 import '../../pages/groups/admin_group_page.dart';
 import '../../utils/app_routes.dart';
 
-class GroupItem extends StatelessWidget {
+class GroupItemAdmin extends StatelessWidget {
   final GroupData group;
 
-  const GroupItem(this.group, {Key? key}) : super(key: key);
+  const GroupItemAdmin(this.group, {Key? key}) : super(key: key);
 
   void _selectGroup(BuildContext context) {
     Navigator.pushReplacement(
@@ -15,11 +16,6 @@ class GroupItem extends StatelessWidget {
             builder: (BuildContext context) => AdminGroupPage(
                   idGroup: group.id,
                 )));
-
-    // Navigator.of(context).pushNamed(
-    //   AppRoutes.TASKS,
-    //   arguments: group,
-    // );
   }
 
   @override

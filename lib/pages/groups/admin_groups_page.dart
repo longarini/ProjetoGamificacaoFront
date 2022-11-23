@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:front_gamific/components/groups/add_group_item.dart';
 import 'package:front_gamific/components/comun/nav_drawer.dart';
-import '../../components/groups/group_item.dart';
+import '../../components/groups/group_item_admin.dart';
 import '../../core/services/groups/group_service.dart';
 
-class GroupsPage extends StatefulWidget {
-  const GroupsPage({super.key});
+class AdminGroupsPage extends StatefulWidget {
+  const AdminGroupsPage({super.key});
 
   @override
-  State<GroupsPage> createState() => _GroupsPageState();
+  State<AdminGroupsPage> createState() => _AdminGroupsPageState();
 }
 
-class _GroupsPageState extends State<GroupsPage> {
+class _AdminGroupsPageState extends State<AdminGroupsPage> {
   List<Widget> groups = [];
 
   @override
@@ -21,12 +21,12 @@ class _GroupsPageState extends State<GroupsPage> {
 
   Future<List<Widget>> _getGroups() async {
     groups = [];
-    var retorno = await GroupServices().getGroups();
+    var retorno = await GroupServices().getAdminGroups();
 
     if (retorno.status == 200) {
       if (retorno.data != null) {
         groups.addAll(retorno.data.map<Widget>((cat) {
-          return GroupItem(cat);
+          return GroupItemAdmin(cat);
         }).toList());
       }
     }

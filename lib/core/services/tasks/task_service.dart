@@ -32,6 +32,30 @@ class TaskServices {
     return retorno;
   }
 
+  Future<ReturnReq> getTasksById(idTask) async {
+    dynamic token = await SessionManager().get("token");
+    ReturnReq retorno = ReturnReq(status: 200, msg: '', data: []);
+
+    var url = Uri.http('localhost:3000', '/api/v1/tasksbyid/$idTask');
+
+    try {
+      var response = await http.get(
+        url,
+        headers: {"Content-Type": "application/json", 'x-access-token': token},
+      );
+
+      retorno.status = response.statusCode;
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+
+        retorno.data = RetornoTask.fromJson(jsonResponse);
+      }
+    } catch (err) {
+      retorno.msg = err.toString();
+    }
+    return retorno;
+  }
+
   Future<ReturnReq> deleteTask(idTask) async {
     dynamic token = await SessionManager().get("token");
     ReturnReq retorno = ReturnReq(status: 200, msg: '', data: null);
@@ -82,6 +106,58 @@ class TaskServices {
         var jsonResponse = jsonDecode(response.body);
 
         retorno.data = RetornoTask.fromJson(jsonResponse);
+      }
+    } catch (err) {
+      retorno.msg = err.toString();
+    }
+    return retorno;
+  }
+
+  Future<ReturnReq> endTask(idTask) async {
+    dynamic id = await SessionManager().get("id");
+    dynamic token = await SessionManager().get("token");
+    ReturnReq retorno = ReturnReq(status: 200, msg: '', data: null);
+
+    var url = Uri.http('localhost:3000', '/api/v1/endtasks');
+    var body = jsonEncode({
+      'idTask': idTask,
+      'idUser': id,
+    });
+    try {
+      var response = await http.post(url,
+          headers: {
+            "Content-Type": "application/json",
+            'x-access-token': token
+          },
+          body: body);
+
+      retorno.status = response.statusCode;
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+
+        retorno.data = RetornoTask.fromJson(jsonResponse);
+      }
+    } catch (err) {
+      retorno.msg = err.toString();
+    }
+    return retorno;
+  }
+
+  Future<ReturnReq> consultEndTask(idTask) async {
+    dynamic id = await SessionManager().get("id");
+    dynamic token = await SessionManager().get("token");
+    ReturnReq retorno = ReturnReq(status: 200, msg: '', data: null);
+
+    var url = Uri.http('localhost:3000', '/api/v1/consultendtasks/$idTask/$id');
+    try {
+      var response = await http.get(url, headers: {
+        "Content-Type": "application/json",
+        'x-access-token': token
+      });
+
+      retorno.status = response.statusCode;
+      if (response.statusCode == 200) {
+        retorno.data = response.body.toLowerCase() == 'true';
       }
     } catch (err) {
       retorno.msg = err.toString();

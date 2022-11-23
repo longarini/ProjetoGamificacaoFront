@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:front_gamific/components/groups/add_group_form.dart';
 import 'package:front_gamific/pages/auth/auth_app_page.dart';
 import 'package:front_gamific/pages/auth/auth_page.dart';
 import 'package:front_gamific/pages/groups/add_group_page.dart';
-import 'package:front_gamific/pages/groups/admin_group_page.dart';
-import 'package:front_gamific/pages/groups/group_page.dart';
-import 'package:front_gamific/pages/comun/main_page.dart';
+import 'package:front_gamific/pages/groups/admin_groups_page.dart';
+import 'package:front_gamific/pages/groups/user_group_page.dart';
 import 'package:front_gamific/pages/tasks/task_page.dart';
-import 'core/services/auth/auth_service_cloud.dart';
 import 'utils/app_routes.dart';
 
 void main() {
@@ -38,9 +35,10 @@ class MyApp extends StatelessWidget {
         routes: {
           AppRoutes.HOME: (ctx) => const AuthAppPage(),
           AppRoutes.AUTH: (ctx) => const AuthPage(),
-          AppRoutes.GROUPS: (ctx) => const GroupsPage(),
           AppRoutes.TASKS: (ctx) => const TaskPage(),
           AppRoutes.ADD_GROUP: (ctx) => const AddGroupPage(),
+          AppRoutes.ADMINGROUP: (ctx) => const AdminGroupsPage(),
+          AppRoutes.USERGROUP: (ctx) => const UserGroupsPage(),
         });
   }
 }

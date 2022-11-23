@@ -12,9 +12,15 @@ class NavDrawer extends StatelessWidget {
     );
   }
 
-  void home(context) {
+  void admin(context) {
     Navigator.of(context).pushNamed(
-      AppRoutes.HOME,
+      AppRoutes.ADMINGROUP,
+    );
+  }
+
+  void user(context) {
+    Navigator.of(context).pushNamed(
+      AppRoutes.USERGROUP,
     );
   }
 
@@ -37,8 +43,13 @@ class NavDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.input),
-            title: const Text('Home'),
-            onTap: () => home(context),
+            title: const Text('Admin'),
+            onTap: () => admin(context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.input),
+            title: const Text('User'),
+            onTap: () => user(context),
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),

@@ -1,47 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:front_gamific/components/groups/add_group_item.dart';
 import 'package:front_gamific/components/comun/nav_drawer.dart';
-import 'package:front_gamific/components/tasks/task_item.dart';
-import 'package:front_gamific/core/models/group_data.dart';
-import 'package:front_gamific/core/models/task_data.dart';
-import '../../core/services/tasks/task_service.dart';
+import 'package:front_gamific/components/groups/group_item_comun.dart';
+import '../../core/services/groups/group_service.dart';
 
-class TaskPage extends StatefulWidget {
-  const TaskPage({super.key});
+class UserGroupsPage extends StatefulWidget {
+  const UserGroupsPage({super.key});
 
   @override
-  State<TaskPage> createState() => _TaskPageState();
+  State<UserGroupsPage> createState() => _UserGroupsPageState();
 }
 
-class _TaskPageState extends State<TaskPage> {
-  List<Widget> tasks = [];
-  GroupData group = const GroupData(id: '', nomeGrupo: '');
+class _UserGroupsPageState extends State<UserGroupsPage> {
+  List<Widget> groups = [];
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<List<Widget>> _getTasks() async {
-    tasks = [];
-    var retorno = await TaskServices().getTasks(group.id);
+  Future<List<Widget>> _getGroups() async {
+    groups = [];
+    var retorno = await GroupServices().getComunGroups();
 
-    var ret = retorno.data.map<Widget>((cat) {
-      return TaskItem(group, cat);
-    }).toList();
-
-    return ret;
+    if (retorno.status == 200) {
+      if (retorno.data != null) {
+        groups.addAll(retorno.data.map<Widget>((cat) {
+          return GroupItemComun(cat);
+        }).toList());
+      }
+    }
+    return groups;
   }
 
   @override
   Widget build(BuildContext context) {
-    group = ModalRoute.of(context)!.settings.arguments as GroupData;
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text('Tasks.'),
+        title: const Text('Groups.'),
       ),
       body: FutureBuilder(
-        future: _getTasks(),
+        future: _getGroups(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return GridView(

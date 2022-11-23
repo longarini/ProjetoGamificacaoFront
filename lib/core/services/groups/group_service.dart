@@ -8,12 +8,40 @@ import 'package:front_gamific/core/models/return_req_data.dart';
 import '../../models/group/retorno_group.dart';
 
 class GroupServices {
-  Future<ReturnReq> getGroups() async {
+  Future<ReturnReq> getAdminGroups() async {
     dynamic id = await SessionManager().get("id");
     dynamic token = await SessionManager().get("token");
     ReturnReq retorno = ReturnReq(status: 200, msg: '', data: null);
 
     var url = Uri.http('localhost:3000', '/api/v1/groups/$id');
+
+    try {
+      var response = await http.get(
+        url,
+        headers: {"Content-Type": "application/json", 'x-access-token': token},
+      );
+
+      retorno.status = response.statusCode;
+      if (response.statusCode == 200) {
+        var jsonResponse =
+            jsonDecode(response.body).cast<Map<String, dynamic>>();
+
+        retorno.data = jsonResponse
+            .map<GroupData>((json) => GroupData.fromJson(json))
+            .toList();
+      }
+    } catch (err) {
+      retorno.msg = err.toString();
+    }
+    return retorno;
+  }
+
+  Future<ReturnReq> getComunGroups() async {
+    dynamic id = await SessionManager().get("id");
+    dynamic token = await SessionManager().get("token");
+    ReturnReq retorno = ReturnReq(status: 200, msg: '', data: null);
+
+    var url = Uri.http('localhost:3000', '/api/v1/comungroups/$id');
 
     try {
       var response = await http.get(
