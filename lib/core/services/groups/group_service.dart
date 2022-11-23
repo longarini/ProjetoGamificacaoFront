@@ -120,12 +120,12 @@ class GroupServices {
     return retorno;
   }
 
-  Future<ReturnReq> deleteUser(user, idGroup) async {
+  Future<ReturnReq> deleteUser(idUser, user, idGroup) async {
     dynamic token = await SessionManager().get("token");
     ReturnReq retorno = ReturnReq(status: 200, msg: '', data: null);
 
     var url = Uri.http('localhost:3000', '/api/v1/groups');
-    var body = jsonEncode({'id': idGroup, 'user': user});
+    var body = jsonEncode({'id': idGroup, 'user': user, 'idUser': idUser});
     try {
       var response = await http.put(url,
           headers: {

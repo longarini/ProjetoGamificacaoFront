@@ -17,6 +17,7 @@ class DataTableComunUsers extends StatefulWidget {
 
 class _DataTableComunUsersState extends State<DataTableComunUsers> {
   List<String> users = [];
+  List<String> idUsers = [];
   List<String> tasksName = [];
   List<String> tasksId = [];
   String groupName = '';
@@ -43,10 +44,12 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
 
   Future<void> _getUsers(idGroup) async {
     var ret = await GroupServices().getInformation(idGroup);
-    if (ret.data.comunUsers != null) {
-      users = ret.data.comunUsers.cast<String>();
+    if (ret.data.nameUsers != null) {
+      users = ret.data.nameUsers.cast<String>();
+      idUsers = ret.data.comunUsers.cast<String>();
     } else {
       users = [];
+      idUsers = [];
     }
     groupName = ret.data.nomeGrupo;
   }
@@ -71,8 +74,9 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
     }
   }
 
-  void _deleteUser(user, idGroup) async {
+  void _deleteUser(idUser, user, idGroup) async {
     var ret = await GroupServices().deleteUser(
+      idUser,
       user,
       idGroup,
     );
@@ -84,6 +88,8 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
       user,
       idGroup,
     );
+
+    setState(() {});
   }
 
   void _insertTask(idGroup, name, descricao, pontos) async {
@@ -217,7 +223,8 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                           Center(
                             child: ElevatedButton(
                               onPressed: () {
-                                _deleteUser(users[indexUser], widget.idGroup);
+                                _deleteUser(idUsers[indexUser],
+                                    users[indexUser], widget.idGroup);
                               },
                               child: const Icon(Icons.delete),
                             ),
