@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:front_gamific/core/services/groups/group_service.dart';
 
 import '../../core/services/tasks/task_service.dart';
@@ -16,11 +17,15 @@ class DataTableComunUsers extends StatefulWidget {
 
 class _DataTableComunUsersState extends State<DataTableComunUsers> {
   List<String> users = [];
-  List<String> tasks = [];
+  List<String> tasksName = [];
+  List<String> tasksId = [];
   String groupName = '';
   String userName = '';
 
-  TextEditingController controller = TextEditingController();
+  TextEditingController controllerNameUser = TextEditingController();
+  TextEditingController controllerTaskName = TextEditingController();
+  TextEditingController controllerTaskDescription = TextEditingController();
+  TextEditingController controllerTaskPoints = TextEditingController();
 
   @override
   void initState() {
@@ -29,7 +34,10 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
 
   @override
   void dispose() {
-    controller.dispose();
+    controllerNameUser.dispose();
+    controllerTaskDescription.dispose();
+    controllerTaskName.dispose();
+    controllerTaskPoints.dispose();
     super.dispose();
   }
 
@@ -48,36 +56,69 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
   }
 
   Future<void> _getTasks(idGroup) async {
+    tasksName = [];
+    tasksId = [];
     var ret = await TaskServices().getTasks(idGroup);
 
     if (ret.data != '') {
-      users = ret.data.comunUsers.cast<String>();
-      groupName = ret.data.nomeGrupo;
+      ret.data.forEach((element) {
+        tasksName.add(element.nomeTask);
+        tasksId.add(element.id);
+      });
     }
   }
 
-  void _deleteUser(user, idGroup) {
-    GroupServices().deleteUser(
+  void _deleteUser(user, idGroup) async {
+    var ret = await GroupServices().deleteUser(
       user,
       idGroup,
     );
     setState(() {});
   }
 
-  void _insertUser(user, idGroup) {
-    GroupServices().insertUser(
+  void _insertUser(user, idGroup) async {
+    var ret = await GroupServices().insertUser(
       user,
       idGroup,
     );
   }
 
-  void save() {
-    _insertUser(controller.text, widget.idGroup);
+  void _insertTask(idGroup, name, descricao, pontos) async {
+    var ret = await TaskServices().insertTask(idGroup, name, descricao, pontos);
+  }
+
+  void _deleteTask(idTask) async {
+    var ret = await TaskServices().deleteTask(idTask);
+    setState(() {});
+  }
+
+  void saveUser() {
+    _insertUser(controllerNameUser.text, widget.idGroup);
+    controllerNameUser.text = '';
+    Navigator.of(context).pop();
+
+    setState(() {});
+  }
+
+  void saveTask() {
+    _insertTask(widget.idGroup, controllerTaskName.text,
+        controllerTaskDescription.text, controllerTaskPoints.text);
+    controllerTaskName.text = '';
+    controllerTaskDescription.text = '';
+    controllerTaskPoints.text = '';
     Navigator.of(context).pop();
     setState(() {});
   }
 
-  void close() {
+  void closeTask() {
+    controllerTaskName.text = '';
+    controllerTaskDescription.text = '';
+    controllerTaskPoints.text = '';
+    Navigator.of(context).pop();
+  }
+
+  void closeUser() {
+    controllerNameUser.text = '';
     Navigator.of(context).pop();
   }
 
@@ -185,7 +226,7 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                padding: const EdgeInsets.fromLTRB(0, 5, 10, 0),
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
@@ -199,15 +240,15 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                             autofocus: true,
                             decoration: const InputDecoration(
                                 hintText: 'Entre com o nome do usuário'),
-                            controller: controller,
+                            controller: controllerNameUser,
                           ),
                           actions: [
                             TextButton(
-                              onPressed: close,
+                              onPressed: closeUser,
                               child: const Text('Cancelar'),
                             ),
                             TextButton(
-                              onPressed: save,
+                              onPressed: saveUser,
                               child: const Text('Salvar'),
                             )
                           ],
@@ -263,7 +304,7 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                     ),
                   ],
                   rows: List<DataRow>.generate(
-                    tasks.length,
+                    tasksName.length,
                     (int indexTask) => DataRow(
                       color: MaterialStateProperty.resolveWith<Color?>(
                           (Set<MaterialState> states) {
@@ -281,12 +322,12 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                         return null; // Use default value for other states and odd rows.
                       }),
                       cells: [
-                        DataCell(Text(tasks[indexTask])),
+                        DataCell(Text(tasksName[indexTask])),
                         DataCell(
                           Center(
                             child: ElevatedButton(
                               onPressed: () {
-                                _deleteUser(users[indexTask], widget.idGroup);
+                                _deleteTask(tasksId[indexTask]);
                               },
                               child: const Icon(Icons.delete),
                             ),
@@ -294,6 +335,68 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 5, 10, 0),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    child: const Text('Add Task'),
+                    onPressed: () {
+                      showDialog<String>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Nome da Task'),
+                          content: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                child: TextField(
+                                  autofocus: true,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Entre com o nome da Task'),
+                                  controller: controllerTaskName,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                child: TextField(
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: 5,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Entre com o nome da Task'),
+                                  controller: controllerTaskDescription,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  decoration: const InputDecoration(
+                                      hintText: 'Pontos da Task'),
+                                  controller: controllerTaskPoints,
+                                ),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: closeTask,
+                              child: const Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: saveTask,
+                              child: const Text('Salvar'),
+                            )
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

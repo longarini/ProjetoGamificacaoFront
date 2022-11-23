@@ -23,8 +23,8 @@ class RetornoTask {
     return RetornoTask(
       groupId: json['groupId'] as String,
       nomeTask: json['nomeTask'] as String,
-      descricao: json['descricao'] as String,
-      pontos: json['pontos'] as int,
+      descricao: json['descricaoTask'] as String,
+      pontos: json['pontosTask'] as int,
       ativo: json['ativo'] as bool,
       id: json['_id'] as String,
       createdAt: json['createdAt'] as String,
