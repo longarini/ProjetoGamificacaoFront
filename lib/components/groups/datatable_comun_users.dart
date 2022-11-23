@@ -43,8 +43,11 @@ class _DataTableComunUsersState extends State<DataTableComunUsers> {
 
   Future<void> _getUsers(idGroup) async {
     var ret = await GroupServices().getInformation(idGroup);
-
-    users = ret.data.comunUsers.cast<String>();
+    if (ret.data.comunUsers != null) {
+      users = ret.data.comunUsers.cast<String>();
+    } else {
+      users = [];
+    }
     groupName = ret.data.nomeGrupo;
   }
 

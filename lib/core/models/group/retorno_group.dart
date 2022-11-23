@@ -1,7 +1,7 @@
 class RetornoGroup {
   final String user;
   final String nomeGrupo;
-  final List<dynamic> adminUsers;
+  final List<dynamic> nameUsers;
   final List<dynamic> comunUsers;
   final List<dynamic> tasks;
   final bool ativo;
@@ -12,7 +12,7 @@ class RetornoGroup {
   RetornoGroup({
     required this.user,
     required this.nomeGrupo,
-    required this.adminUsers,
+    required this.nameUsers,
     required this.comunUsers,
     required this.tasks,
     required this.ativo,
@@ -25,7 +25,7 @@ class RetornoGroup {
     return RetornoGroup(
       user: json['user'] as String,
       nomeGrupo: json['nomeGrupo'] as String,
-      adminUsers: json['adminUsers'] as List<dynamic>,
+      nameUsers: json['nameUsers'] as List<dynamic>,
       comunUsers: json['comunUsers'] as List<dynamic>,
       tasks: json['tasks'] as List<dynamic>,
       ativo: json['ativo'] as bool,

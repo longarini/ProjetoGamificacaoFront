@@ -34,8 +34,6 @@ class _AdminGroupPageState extends State<AdminGroupPage> {
 
     var ret = await GroupServices().getInformation(idGroup);
 
-    var comunUsers = ret.data.comunUsers.cast<String>();
-
     retorno.add(DataTableComunUsers(idGroup: idGroup));
 
     return retorno;
